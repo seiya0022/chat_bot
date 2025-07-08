@@ -5,7 +5,8 @@ from flask import Flask, request, jsonify
 
 
 load_dotenv()   # load .env file
-client = OpenAI()
+api_key = os.getenv("OPENAI_API_KEY")
+client = OpenAI(api_key=api_key)
 response = client.responses.create(
     model="gpt-4.1-nano",
     input="Do you think I work too much?"

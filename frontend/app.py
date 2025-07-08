@@ -16,7 +16,7 @@ for msg in st.session_state.messages:
         st.markdown(msg["content"])
 
 # ユーザーからの入力を受け取る
-user_input = st.chat_input("メッセージを入力してください...")
+user_input = st.chat_input("talk to me...")
 
 if user_input:
     # ユーザーのメッセージを追加

@@ -14,4 +14,4 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY . .
 
 # Streamlitで起動
-CMD ["python", "chatbot_app.py"]
+CMD ["python", "backend_api.py"]
