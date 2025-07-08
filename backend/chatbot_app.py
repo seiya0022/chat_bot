@@ -3,18 +3,18 @@ from dotenv import load_dotenv
 import os
 from flask import Flask, request, jsonify
 
+
 load_dotenv()   # load .env file
 client = OpenAI()
 response = client.responses.create(
     model="gpt-4.1-nano",
-    input="Do you think I work too ling?"
+    input="Do you think I work too much?"
 )
 print(response.output_text)
 
 
 
 app = Flask(__name__)
-
 
 @app.route('/api/chat', methods=['POST'])
 def chat():
@@ -30,6 +30,7 @@ def chat():
         return jsonify({'response': response.output_text})
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+
 
 
 if __name__ == '__main__':
