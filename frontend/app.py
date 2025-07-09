@@ -27,7 +27,7 @@ if user_input:
     # バックエンド API にリクエストを送信
     try:
         response = requests.post(
-            "http://backend:5000/chat",  # docker compose 上の backend サービス名を使う
+            "http://backend:5000/api/chat",
             json={"message": user_input},
             timeout=10,
         )
@@ -35,7 +35,7 @@ if user_input:
         data = response.json()
         reply = data["response"]
     except Exception as e:
-        reply = f"エラーが発生しました: {e}"
+        reply = f"opps! There seems to be an error: {e}"
 
     # アシスタントの返答を追加
     st.session_state.messages.append({"role": "assistant", "content": reply})

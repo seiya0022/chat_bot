@@ -7,12 +7,6 @@ from flask import Flask, request, jsonify
 load_dotenv()   # load .env file
 api_key = os.getenv("OPENAI_API_KEY")
 client = OpenAI(api_key=api_key)
-response = client.responses.create(
-    model="gpt-4.1-nano",
-    input="Do you think I work too much?"
-)
-print(response.output_text)
-
 
 
 app = Flask(__name__)
@@ -37,3 +31,10 @@ def chat():
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
 
+#%%
+
+response = client.responses.create(
+    model="gpt-4.1-nano",
+    input="Do you think I work too much?"
+)
+print(response.output_text)
