@@ -33,8 +33,3 @@ if __name__ == '__main__':
 
 #%%
 
-response = client.responses.create(
-    model="gpt-4.1-nano",
-    input="Do you think I work too much?"
-)
-print(response.output_text)
