@@ -24,17 +24,18 @@ if user_input:
 
     # バックエンド API にリクエストを送信
     try:
-        st.write(st.session_state.messages)
         response = requests.post(
             "http://backend:5000/api/chat",
             json={"message": st.session_state.messages},
             timeout=10
-        )
-        
+        ) 
         response.raise_for_status()
-        st.write(response.raise_)
-        data = response.json()
-        reply = data["response"]
+        reply = response.json()["response"]
+
+        st.write(st.session_state.messages)
+        st.write(f'response.raise_for_status(): {response.raise_for_status()}')
+        st.write(f'reply: {reply}')      
+
     except Exception as e:
         reply = f"opps! There seems to be an error: {e}"
 
