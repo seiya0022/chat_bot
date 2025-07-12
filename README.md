@@ -55,9 +55,10 @@ This chatbot remembers previous conversations by storing them in a database and 
 #### Create `.env` file at the root:
 OPENAI_API_KEY=your_openai_api_key_here
 
-3. Run the App
-
+### 3. Run the App
+```
 docker-compose up --build
+```
 🖥️ Frontend: http://localhost:8501
 
 🔙 Backend API: http://localhost:5000
