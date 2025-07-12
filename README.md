@@ -59,7 +59,7 @@ OPENAI_API_KEY=your_openai_api_key_here
 
 ### 3. Run the App
 ```
-docker-compose up --build
+docker-compose up
 ```
 🖥️ Frontend: http://localhost:8501
 
