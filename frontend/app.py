@@ -14,15 +14,26 @@ if "messages" not in st.session_state:
 
 st.set_page_config(page_title="Chatbot", page_icon=":robot_face:", layout="wide")
 st.title("Chatbot")
-
 tabs = st.tabs(['Default chat room'])
 
-st.button("clear chat",on_click=lambda: st.session_state.messages.clear())
+
+def clear_chat_and_save():
+    # 空の履歴をバックエンドに送信
+    try:
+        requests.post(
+            "http://backend:5000/api/chat",
+            json={"message": []},
+            timeout=5
+        )
+    except Exception as e:
+        st.error(f"エラー: {e}")
+
+    # ローカルのセッションもクリア
+    st.session_state.messages.clear()
 
 
-# セッション状態にチャット履歴を保存
-if "messages" not in st.session_state:
-    st.session_state.messages = []
+st.button("clear chat",on_click=clear_chat_and_save)
+# st.button("session_state", on_click=lambda: st.write(st.session_state))
 
 # チャット履歴を表示
 for msg in st.session_state.messages:
@@ -47,10 +58,6 @@ if user_input:
         ) 
         response.raise_for_status()
         reply = response.json()["response"]
-
-       # st.write(st.session_state.messages)
-       # st.write(f'response.raise_for_status(): {response.raise_for_status()}')
-       # st.write(f'reply: {reply}')      
 
     except Exception as e:
         reply = f"opps! There seems to be an error: {e}"

@@ -26,19 +26,22 @@ def get_conn():
 @app.route('/api/chat', methods=['POST'])
 def chat():
     user_input = request.json.get('message')
-    if not user_input:
+    if user_input is None:
         return jsonify({'error': 'No message provided'}), 400
 
-    try:
-        response = client.responses.create(
-            model="gpt-4.1-nano",
-            input=user_input
-        )
-
-        reply = response.output_text
-        user_input.append({"role": "assistant", "content": reply})
+    try: 
+        reply = ''
         messages = user_input
 
+        if user_input:
+            response = client.responses.create(
+                model="gpt-4.1-nano",
+                input=user_input
+            )
+
+            reply = response.output_text
+            messages = user_input + [{"role": "assistant", "content": reply}]
+      
         # DB に保存
         conn = get_conn()
         cur = conn.cursor()
