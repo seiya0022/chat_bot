@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 
 
-# アプリ起動時に一度だけ履歴を取得
+# Retrieve history only once at app startup
 if "messages" not in st.session_state:
     try:
         res = requests.get("http://backend:5000/api/chat/history")
@@ -12,13 +12,9 @@ if "messages" not in st.session_state:
         st.session_state.messages = []
         st.error(f'error occured: {e}')
 
-st.set_page_config(page_title="Chatbot", page_icon=":robot_face:", layout="wide")
-st.title("Chatbot")
-tabs = st.tabs(['Default chat room'])
-
 
 def clear_chat_and_save():
-    # 空の履歴をバックエンドに送信
+    # send the empty list to the backend
     try:
         requests.post(
             "http://backend:5000/api/chat",
@@ -26,30 +22,32 @@ def clear_chat_and_save():
             timeout=5
         )
     except Exception as e:
-        st.error(f"エラー: {e}")
+        st.error(f"Error!: {e}")
 
-    # ローカルのセッションもクリア
+    # clearing up the local session_state.messages too
     st.session_state.messages.clear()
 
 
+st.set_page_config(page_title="Chatbot", page_icon=":robot_face:", layout="wide")
+st.title("Chatbot")
+tabs = st.tabs(['Default chat room'])
 st.button("clear chat",on_click=clear_chat_and_save)
-# st.button("session_state", on_click=lambda: st.write(st.session_state))
 
 # チャット履歴を表示
 for msg in st.session_state.messages:
     with st.chat_message(msg["role"]):
         st.markdown(msg["content"])
 
-# ユーザーからの入力を受け取る
+# get the user input?
 user_input = st.chat_input("talk to me...I'm the real chatbot!")
 
 if user_input:
-    # ユーザーのメッセージを追加
-    st.session_state.messages.append({"role": "user", "content": user_input})
+    # append user input to the conversation
+    st.session_state.messages = st.session_state.messages + [{"role": "user", "content": user_input}]
     with st.chat_message("user"):
         st.markdown(user_input)
 
-    # バックエンド API にリクエストを送信
+    # send request to the backend API
     try:
         response = requests.post(
             "http://backend:5000/api/chat",
@@ -63,7 +61,7 @@ if user_input:
         reply = f"opps! There seems to be an error: {e}"
 
     # アシスタントの返答を追加
-    st.session_state.messages.append({"role": "assistant", "content": reply})
+    st.session_state.messages = st.session_state.messages + [{"role": "assistant", "content": reply}]
     with st.chat_message("assistant"):
         st.markdown(reply)
 

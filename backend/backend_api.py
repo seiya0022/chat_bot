@@ -42,7 +42,7 @@ def chat():
             reply = response.output_text
             messages = user_input + [{"role": "assistant", "content": reply}]
       
-        # DB に保存
+        # Save the conversation into the DB
         conn = get_conn()
         cur = conn.cursor()
         cur.execute(
@@ -53,7 +53,6 @@ def chat():
         cur.close()
         conn.close()
         
-        # 返答をfrontendに返す
         return jsonify({'response': reply})
     
     except Exception as e:
