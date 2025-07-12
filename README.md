@@ -52,8 +52,10 @@ This chatbot remembers previous conversations by storing them in a database and 
 
 ### 2. Setup
 
-#### Create `.env` file at the root:
+#### Create `.env` file at the ##backend directory## :
+```
 OPENAI_API_KEY=your_openai_api_key_here
+```
 
 ### 3. Run the App
 ```
